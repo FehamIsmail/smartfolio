@@ -5,3 +5,7 @@
 .eslintrc.js
 
 .npmignore
+
+.next
+
+node_modules
