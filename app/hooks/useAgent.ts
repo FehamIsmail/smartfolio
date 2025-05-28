@@ -1,5 +1,13 @@
 import { useState } from "react";
 import { AgentRequest, AgentResponse } from "../types/api";
+import { WalletConfig } from "../api/agent/create-agent";
+
+/**
+ * Extended request type to include wallet config
+ */
+interface ExtendedAgentRequest extends AgentRequest {
+  walletConfig?: WalletConfig;
+}
 
 /**
  * Sends a user message to the AgentKit backend API and retrieves the agent's response.
@@ -7,16 +15,17 @@ import { AgentRequest, AgentResponse } from "../types/api";
  * @async
  * @function callAgentAPI
  * @param {string} userMessage - The message sent by the user.
+ * @param {WalletConfig} [walletConfig] - Optional wallet configuration.
  * @returns {Promise<string | null>} The agent's response message or `null` if an error occurs.
  *
  * @throws {Error} Logs an error if the request fails.
  */
-async function messageAgent(userMessage: string): Promise<string | null> {
+async function messageAgent(userMessage: string, walletConfig?: WalletConfig): Promise<string | null> {
   try {
     const response = await fetch("/api/agent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userMessage } as AgentRequest),
+      body: JSON.stringify({ userMessage, walletConfig } as ExtendedAgentRequest),
     });
 
     const data = (await response.json()) as AgentResponse;
@@ -34,7 +43,7 @@ async function messageAgent(userMessage: string): Promise<string | null> {
  * responses from the agent.
  *
  * #### How It Works
- * - `sendMessage(input)` sends a message to `/api/agent` and updates state.
+ * - `sendMessage(input, walletConfig?)` sends a message to `/api/agent` and updates state.
  * - `messages` stores the chat history.
  * - `isThinking` tracks whether the agent is processing a response.
  *
@@ -43,7 +52,7 @@ async function messageAgent(userMessage: string): Promise<string | null> {
  *
  * @returns {object} An object containing:
  * - `messages`: The conversation history.
- * - `sendMessage`: A function to send a new message.
+ * - `sendMessage`: A function to send a new message with optional wallet config.
  * - `isThinking`: Boolean indicating if the agent is processing a response.
  */
 export function useAgent() {
@@ -54,14 +63,15 @@ export function useAgent() {
    * Sends a user message, updates local state, and retrieves the agent's response.
    *
    * @param {string} input - The message from the user.
+   * @param {WalletConfig} [walletConfig] - Optional wallet configuration.
    */
-  const sendMessage = async (input: string) => {
+  const sendMessage = async (input: string, walletConfig?: WalletConfig) => {
     if (!input.trim()) return;
 
     setMessages(prev => [...prev, { text: input, sender: "user" }]);
     setIsThinking(true);
 
-    const responseMessage = await messageAgent(input);
+    const responseMessage = await messageAgent(input, walletConfig);
 
     if (responseMessage) {
       setMessages(prev => [...prev, { text: responseMessage, sender: "agent" }]);

@@ -128,3 +128,42 @@ export async function prepareAgentkitAndWalletProvider(): Promise<{
     throw new Error("Failed to initialize agent");
   }
 }
+
+/**
+ * Prepares the AgentKit with a custom wallet provider.
+ *
+ * @function prepareAgentkitWithWallet
+ * @param walletProvider - The wallet provider to use
+ * @returns {Promise<{ agentkit: AgentKit }>} The initialized AI agent.
+ *
+ * @description Handles agent setup with custom wallet provider
+ *
+ * @throws {Error} If the agent initialization fails.
+ */
+export async function prepareAgentkitWithWallet(
+  walletProvider: WalletProvider
+): Promise<{
+  agentkit: AgentKit;
+}> {
+  try {
+    // Initialize AgentKit: https://docs.cdp.coinbase.com/agentkit/docs/agent-actions
+    const agentkit = await AgentKit.from({
+      walletProvider,
+      actionProviders: [
+        wethActionProvider(),
+        pythActionProvider(),
+        walletActionProvider(),
+        erc20ActionProvider(),
+        cdpApiActionProvider({
+          apiKeyName: process.env.CDP_API_KEY_NAME,
+          apiKeyPrivateKey: process.env.CDP_API_KEY_PRIVATE_KEY,
+        }),
+      ],
+    });
+
+    return { agentkit };
+  } catch (error) {
+    console.error("Error initializing agent with custom wallet:", error);
+    throw new Error("Failed to initialize agent with custom wallet");
+  }
+}
