@@ -7,7 +7,7 @@ export function Header() {
         className="h-8 ml-4"
       />
 
-      <span className="absolute left-1/2 transform -translate-x-1/2 text-3xl font-bold text-blue-600 dark:text-blue-400">
+      <span className="absolute left-1/2 transform -translate-x-1/2 text-3xl font-bold text-blue-600 text-blue-400">
         AgentKit
       </span>
     </header>
