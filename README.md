@@ -22,6 +22,13 @@ SmartFolio is a DeFi portfolio management application that uses Modern Portfolio
   - Asset correlation
 - Preview and execute portfolio rebalancing transactions
 
+## Documentation
+
+For more detailed information about SmartFolio:
+
+- [**Demo**](./DEMO.md) - Visual walkthrough of the application with screenshots
+- [**How It Works**](./HOW-IT-WORKS.md) - Detailed explanation of the portfolio rebalancing algorithms and Modern Portfolio Theory implementation
+
 ## Modern Portfolio Theory
 
 The portfolio rebalancer uses Modern Portfolio Theory (MPT) to find the optimal allocation between BTC and ETH. MPT is a mathematical framework for constructing an investment portfolio that aims to maximize expected return for a given level of risk.
@@ -84,6 +91,3 @@ yarn dev
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
