@@ -1,67 +1,89 @@
-# Onchain Agent Powered by AgentKit
+# SmartFolio
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with `create-onchain-agent`.  
+SmartFolio is a DeFi portfolio management application that uses Modern Portfolio Theory to optimize crypto asset allocation. The app currently supports BTC and ETH portfolio rebalancing based on risk preferences.
 
-It integrates [AgentKit](https://github.com/coinbase/agentkit) to provide AI-driven interactions with on-chain capabilities.
+## Features
+
+### AgentKit AI Chat
+- Interact with a powerful AI agent that can analyze your wallet, provide insights, and execute transactions
+- Connect your wallet to get personalized recommendations
+- Get real-time market data and portfolio analytics
+
+### Portfolio Rebalancer
+- Optimize your BTC/ETH portfolio allocation using Modern Portfolio Theory
+- Choose from different risk strategies:
+  - **Conservative**: Lower volatility, stable returns
+  - **Balanced**: Moderate risk/reward balance
+  - **Aggressive**: Higher potential returns with higher volatility
+- View detailed portfolio analytics:
+  - Expected returns
+  - Expected risk (volatility)
+  - Sharpe Ratio
+  - Asset correlation
+- Preview and execute portfolio rebalancing transactions
+
+## Modern Portfolio Theory
+
+The portfolio rebalancer uses Modern Portfolio Theory (MPT) to find the optimal allocation between BTC and ETH. MPT is a mathematical framework for constructing an investment portfolio that aims to maximize expected return for a given level of risk.
+
+Key concepts implemented:
+- **Efficient Frontier**: The set of optimal portfolios that offer the highest expected return for a defined level of risk
+- **Sharpe Ratio**: A measure of risk-adjusted return, calculated as (Expected Return - Risk Free Rate) / Volatility
+- **Portfolio Variance**: Accounts for the correlation between assets to determine overall portfolio risk
+- **Risk Profiles**: Different strategies that adjust optimization goals based on risk tolerance
 
 ## Getting Started
 
-First, install dependencies:
+### Prerequisites
+- Node.js v18+
+- Yarn or npm
 
-```sh
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/smartfolio.git
+cd smartfolio
+```
+
+2. Install dependencies
+```bash
 npm install
+# or
+yarn install
 ```
 
-Then, configure your environment variables:
-
-```sh
-mv .env.local .env
-```
-
-Run the development server:
-
-```sh
+3. Start the development server
+```bash
 npm run dev
+# or
+yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the project.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
+## Usage
 
-## Configuring Your Agent
+1. Connect your wallet using the "Connect" button
+2. Switch between "Agent Chat" and "Portfolio Rebalancer" using the tabs
+3. In the Portfolio Rebalancer:
+   - Select your risk strategy
+   - View your current portfolio allocation
+   - Run MPT analysis to get optimal allocation recommendations
+   - Preview the rebalance to see required transactions
+   - Execute the rebalance to optimize your portfolio
 
-You can [modify your configuration](https://github.com/coinbase/agentkit/tree/main/typescript/agentkit#usage) of the agent. By default, your agentkit configuration occurs in the `/api/agent/prepare-agentkit.ts` file, and agent instantiation occurs in the `/api/agent/create-agent.ts` file.
+## Technologies
 
-### 1. Select Your LLM  
-Modify the OpenAI model instantiation to use the model of your choice.
-
-### 2. Select Your Wallet Provider  
-AgentKit requires a **Wallet Provider** to interact with blockchain networks.
-
-### 3. Select Your Action Providers  
-Action Providers define what your agent can do. You can use built-in providers or create your own.
-
----
-
-## Next Steps
-
-- Explore the AgentKit README: [AgentKit Documentation](https://github.com/coinbase/agentkit)
-- Learn more about available Wallet Providers & Action Providers.
-- Experiment with custom Action Providers for your specific use case.
-
----
-
-## Learn More
-
-- [Learn more about CDP](https://docs.cdp.coinbase.com/)
-- [Learn more about AgentKit](https://docs.cdp.coinbase.com/agentkit/docs/welcome)
-- [Learn more about Next.js](https://nextjs.org/docs)
-- [Learn more about Tailwind CSS](https://tailwindcss.com/docs)
-
----
+- **Frontend**: Next.js, React, TypeScript, TailwindCSS
+- **Blockchain**: AgentKit, Viem, Wagmi, RainbowKit
+- **Data**: CoinGecko API for market data
+- **MPT Implementation**: Custom TypeScript implementation
 
 ## Contributing
 
-Interested in contributing to AgentKit? Follow the contribution guide:
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-- [Contribution Guide](https://github.com/coinbase/agentkit/blob/main/CONTRIBUTING.md)
-- Join the discussion on [Discord](https://discord.gg/CDP)
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
