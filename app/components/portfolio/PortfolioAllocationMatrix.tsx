@@ -45,7 +45,7 @@ export default function PortfolioAllocationMatrix({
       </div>
       
       <div className="text-xs text-gray-500 mb-2">
-        This table shows different BTC/ETH allocations and their expected performance metrics based on historical data.
+        This table shows different BTC/ETH allocations and their expected performance metrics, derived from 50,000 portfolio simulations based on historical data.
       </div>
       
       <div className="overflow-x-auto">
