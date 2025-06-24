@@ -44,7 +44,7 @@ export default function AgentChat() {
 
   return (
     <div className="flex flex-col flex-grow items-center justify-center text-black w-full h-full">
-      <div className="w-full max-w-2xl h-[70vh] bg-white shadow-lg rounded-lg p-4 flex flex-col">
+      <div className="w-full max-w-2xl h-[70vh] bg-white shadow-lg rounded-lg p-4 flex flex-col mb-10">
         {/* Wallet Status */}
         {isConnected && address && (
           <div className="mb-4 p-2 bg-green-100 rounded text-sm">

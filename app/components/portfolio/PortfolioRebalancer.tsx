@@ -230,36 +230,50 @@ export default function PortfolioRebalancer() {
       };
       
       // Calculate transactions needed
-      const transactionsNeeded = {
-        ...(currentValue.btc > targetBtcValue ? {
-          sell: {
+      const THRESHOLD = 0.01; // 1% threshold to trigger a transaction
+      
+      // Create transaction objects based on the difference between current and target values
+      const btcDiff = currentValue.btc - targetBtcValue;
+      const ethDiff = currentValue.eth - targetEthValue;
+      
+      // Determine which asset to sell and which to buy based on the differences
+      let transactionsNeeded = {} as any;
+      
+      if (Math.abs(btcDiff) > currentValue.total * THRESHOLD) {
+        if (btcDiff > 0) {
+          // Need to sell BTC
+          transactionsNeeded.sellBtc = {
             asset: 'btc' as const,
-            amount: (currentValue.btc - targetBtcValue) / marketData.btcPrice,
-            valueUSD: currentValue.btc - targetBtcValue
-          }
-        } : null),
-        ...(currentValue.eth > targetEthValue ? {
-          sell: {
-            asset: 'eth' as const,
-            amount: (currentValue.eth - targetEthValue) / marketData.ethPrice,
-            valueUSD: currentValue.eth - targetEthValue
-          }
-        } : null),
-        ...(currentValue.btc < targetBtcValue ? {
-          buy: {
+            amount: btcDiff / marketData.btcPrice,
+            valueUSD: btcDiff
+          };
+        } else {
+          // Need to buy BTC
+          transactionsNeeded.buyBtc = {
             asset: 'btc' as const,
-            amount: (targetBtcValue - currentValue.btc) / marketData.btcPrice,
-            valueUSD: targetBtcValue - currentValue.btc
-          }
-        } : null),
-        ...(currentValue.eth < targetEthValue ? {
-          buy: {
+            amount: Math.abs(btcDiff) / marketData.btcPrice,
+            valueUSD: Math.abs(btcDiff)
+          };
+        }
+      }
+      
+      if (Math.abs(ethDiff) > currentValue.total * THRESHOLD) {
+        if (ethDiff > 0) {
+          // Need to sell ETH
+          transactionsNeeded.sellEth = {
             asset: 'eth' as const,
-            amount: (targetEthValue - currentValue.eth) / marketData.ethPrice,
-            valueUSD: targetEthValue - currentValue.eth
-          }
-        } : null)
-      };
+            amount: ethDiff / marketData.ethPrice,
+            valueUSD: ethDiff
+          };
+        } else {
+          // Need to buy ETH
+          transactionsNeeded.buyEth = {
+            asset: 'eth' as const,
+            amount: Math.abs(ethDiff) / marketData.ethPrice,
+            valueUSD: Math.abs(ethDiff)
+          };
+        }
+      }
       
       // Create preview data
       const preview: RebalancePreviewData = {
@@ -267,7 +281,7 @@ export default function PortfolioRebalancer() {
         targetAllocation: mptResult.optimalRatio,
         currentValue,
         targetValue,
-        transactionsNeeded: transactionsNeeded as any // Type assertion for simplicity
+        transactionsNeeded
       };
       
       setPreviewData(preview);
@@ -281,7 +295,7 @@ export default function PortfolioRebalancer() {
   
   // Execute rebalance
   const executeRebalance = useCallback(async () => {
-    if (!mptResult || !address) return;
+    if (!mptResult || !address || !previewData) return;
     
     setIsExecutingRebalance(true);
     setShowPreview(false);
@@ -300,7 +314,8 @@ export default function PortfolioRebalancer() {
         body: JSON.stringify({
           targetRatio: mptResult.optimalRatio,
           walletConfig,
-          currentHoldings: holdings // Pass the actual holdings to the API
+          currentHoldings: holdings,
+          transactionsNeeded: previewData.transactionsNeeded // Pass the actual transactions needed
         }),
       });
       
@@ -321,7 +336,7 @@ export default function PortfolioRebalancer() {
       setIsExecutingRebalance(false);
       setTransactionComplete(true);
     }
-  }, [mptResult, address, isConnected, chainId, holdings]);
+  }, [mptResult, address, isConnected, chainId, holdings, previewData]);
   
   // Reset transaction state
   const resetTransactionState = () => {
@@ -346,38 +361,38 @@ export default function PortfolioRebalancer() {
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold">Portfolio Rebalancer</h2>
-        <p className="text-gray-600 mt-1">
-          Optimize your BTC/ETH allocation using <a href="https://coinbureau.com/education/modern-portfolio-theory-crypto/" className="text-blue-600 hover:underline">Modern Portfolio Theory</a>
+        <h2 className="text-2xl font-bold text-text-primary">Portfolio Rebalancer</h2>
+        <p className="text-text-secondary mt-2">
+          Optimize your BTC/ETH allocation using <a href="https://coinbureau.com/education/modern-portfolio-theory-crypto/" className="text-primary hover:text-primary-dark transition-colors">Modern Portfolio Theory</a>
         </p>
       </div>
       
       {/* Connection Status */}
       {!isConnected && (
-        <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
-          <p className="text-yellow-700">
+        <div className="mb-6 crypto-card p-4 border border-accent/30">
+          <p className="text-accent">
             Connect your wallet to see your actual ETH balance. BTC balances may require additional configuration.
           </p>
         </div>
       )}
       
       {/* Strategy Selection Toggle */}
-      <div className="mb-6">
+      <div className="mb-6 crypto-card p-4">
         <div className="flex justify-between items-center">
-          <h3 className="text-lg font-medium">Allocation Strategy</h3>
+          <h3 className="text-lg font-medium text-text-primary">Allocation Strategy</h3>
           <div className="flex items-center">
-            <span className={`mr-2 text-sm ${!useCustomWeight ? 'font-medium text-blue-600' : 'text-gray-500'}`}>
+            <span className={`mr-2 text-sm ${!useCustomWeight ? 'font-medium text-primary' : 'text-text-secondary'}`}>
               Risk Profiles
             </span>
             <button 
               onClick={toggleCustomWeight}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${useCustomWeight ? 'bg-blue-600' : 'bg-gray-300'}`}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${useCustomWeight ? 'bg-primary' : 'bg-background-start'}`}
             >
               <span
                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${useCustomWeight ? 'translate-x-6' : 'translate-x-1'}`}
               />
             </button>
-            <span className={`ml-2 text-sm ${useCustomWeight ? 'font-medium text-blue-600' : 'text-gray-500'}`}>
+            <span className={`ml-2 text-sm ${useCustomWeight ? 'font-medium text-primary' : 'text-text-secondary'}`}>
               Custom Weight
             </span>
           </div>
@@ -423,10 +438,10 @@ export default function PortfolioRebalancer() {
           <button
             onClick={runAnalysis}
             disabled={!marketData || !holdings || isRunningAnalysis}
-            className={`px-4 py-2 rounded-md ${
+            className={`px-4 py-2 rounded-lg transition-all duration-300 ${
               !marketData || !holdings || isRunningAnalysis
-                ? 'bg-gray-300 cursor-not-allowed text-gray-500'
-                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                ? 'bg-background-start cursor-not-allowed text-text-secondary'
+                : 'btn-primary'
             }`}
           >
             {isRunningAnalysis ? (
@@ -441,7 +456,7 @@ export default function PortfolioRebalancer() {
             <button
               onClick={createRebalancePreview}
               disabled={isCreatingPreview}
-              className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
+              className="btn-secondary"
             >
               {isCreatingPreview ? (
                 <span className="flex items-center">

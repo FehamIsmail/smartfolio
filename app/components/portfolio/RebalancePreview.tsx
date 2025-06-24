@@ -40,13 +40,13 @@ export default function RebalancePreview({
   const targetEthPercent = (targetAllocation.eth * 100).toFixed(1);
   
   return (
-    <div className="bg-white rounded-lg shadow p-6 mb-6">
-      <h3 className="text-lg font-medium mb-4">Rebalance Preview</h3>
+    <div className="crypto-card glow p-6 mb-6">
+      <h3 className="text-lg font-medium mb-4 text-text-primary">Rebalance Preview</h3>
       
       <div className="space-y-6">
         {/* Allocation Comparison */}
         <div>
-          <h4 className="text-sm font-medium text-gray-500 mb-3">Allocation Change</h4>
+          <h4 className="text-sm font-medium text-text-primary mb-3">Allocation Change</h4>
           
           <div className="space-y-4">
             <div>
@@ -71,49 +71,92 @@ export default function RebalancePreview({
         
         {/* Transaction Details */}
         <div>
-          <h4 className="text-sm font-medium text-gray-500 mb-3">Required Transactions</h4>
+          <h4 className="text-sm font-medium text-text-primary mb-3">Required Transactions</h4>
           
-          {!transactionsNeeded.sell && !transactionsNeeded.buy ? (
-            <div className="text-center py-4 text-gray-500 bg-gray-50 rounded">
+          {!transactionsNeeded.sellBtc && !transactionsNeeded.sellEth && 
+           !transactionsNeeded.buyBtc && !transactionsNeeded.buyEth ? (
+            <div className="text-center py-4 text-text-secondary bg-background-start/50 rounded-lg">
               No transactions needed. Your portfolio is already optimally balanced.
             </div>
           ) : (
             <div className="space-y-3">
-              {transactionsNeeded.sell && (
-                <div className="p-4 bg-red-50 rounded-lg">
+              {/* Sell Transactions */}
+              {transactionsNeeded.sellBtc && (
+                <div className="p-4 bg-red-900/20 rounded-lg border border-red-500/20">
                   <div className="flex items-center mb-2">
-                    <svg className="w-5 h-5 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <svg className="w-5 h-5 text-red-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
                     </svg>
-                    <span className="font-medium">Sell {transactionsNeeded.sell.asset.toUpperCase()}</span>
+                    <span className="font-medium text-text-primary">Sell BTC</span>
                   </div>
                   
                   <div className="ml-7 space-y-1">
-                    <div className="text-sm">
-                      Amount: <span className="font-medium">{transactionsNeeded.sell.amount.toFixed(8)} {transactionsNeeded.sell.asset.toUpperCase()}</span>
+                    <div className="text-sm text-text-secondary">
+                      Amount: <span className="font-medium text-text-primary">{transactionsNeeded.sellBtc.amount.toFixed(8)} BTC</span>
                     </div>
-                    <div className="text-sm">
-                      Value: <span className="font-medium">${transactionsNeeded.sell.valueUSD.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                    <div className="text-sm text-text-secondary">
+                      Value: <span className="font-medium text-text-primary">${transactionsNeeded.sellBtc.valueUSD.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
                     </div>
                   </div>
                 </div>
               )}
               
-              {transactionsNeeded.buy && (
-                <div className="p-4 bg-green-50 rounded-lg">
+              {transactionsNeeded.sellEth && (
+                <div className="p-4 bg-red-900/20 rounded-lg border border-red-500/20">
                   <div className="flex items-center mb-2">
-                    <svg className="w-5 h-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                    <svg className="w-5 h-5 text-red-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
                     </svg>
-                    <span className="font-medium">Buy {transactionsNeeded.buy.asset.toUpperCase()}</span>
+                    <span className="font-medium text-text-primary">Sell ETH</span>
                   </div>
                   
                   <div className="ml-7 space-y-1">
-                    <div className="text-sm">
-                      Amount: <span className="font-medium">{transactionsNeeded.buy.amount.toFixed(8)} {transactionsNeeded.buy.asset.toUpperCase()}</span>
+                    <div className="text-sm text-text-secondary">
+                      Amount: <span className="font-medium text-text-primary">{transactionsNeeded.sellEth.amount.toFixed(8)} ETH</span>
                     </div>
-                    <div className="text-sm">
-                      Value: <span className="font-medium">${transactionsNeeded.buy.valueUSD.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                    <div className="text-sm text-text-secondary">
+                      Value: <span className="font-medium text-text-primary">${transactionsNeeded.sellEth.valueUSD.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Buy Transactions */}
+              {transactionsNeeded.buyBtc && (
+                <div className="p-4 bg-green-900/20 rounded-lg border border-green-500/20">
+                  <div className="flex items-center mb-2">
+                    <svg className="w-5 h-5 text-green-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                    </svg>
+                    <span className="font-medium text-text-primary">Buy BTC</span>
+                  </div>
+                  
+                  <div className="ml-7 space-y-1">
+                    <div className="text-sm text-text-secondary">
+                      Amount: <span className="font-medium text-text-primary">{transactionsNeeded.buyBtc.amount.toFixed(8)} BTC</span>
+                    </div>
+                    <div className="text-sm text-text-secondary">
+                      Value: <span className="font-medium text-text-primary">${transactionsNeeded.buyBtc.valueUSD.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {transactionsNeeded.buyEth && (
+                <div className="p-4 bg-green-900/20 rounded-lg border border-green-500/20">
+                  <div className="flex items-center mb-2">
+                    <svg className="w-5 h-5 text-green-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                    </svg>
+                    <span className="font-medium text-text-primary">Buy ETH</span>
+                  </div>
+                  
+                  <div className="ml-7 space-y-1">
+                    <div className="text-sm text-text-secondary">
+                      Amount: <span className="font-medium text-text-primary">{transactionsNeeded.buyEth.amount.toFixed(8)} ETH</span>
+                    </div>
+                    <div className="text-sm text-text-secondary">
+                      Value: <span className="font-medium text-text-primary">${transactionsNeeded.buyEth.valueUSD.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
                     </div>
                   </div>
                 </div>
@@ -123,18 +166,18 @@ export default function RebalancePreview({
         </div>
         
         {/* Action Buttons */}
-        <div className="flex justify-end space-x-3 pt-4 border-t">
+        <div className="flex justify-end space-x-3 pt-4 border-t border-white/10">
           <button 
             onClick={onCancel}
-            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+            className="px-4 py-2 border border-white/10 rounded-lg text-text-primary hover:bg-background-start/50 transition-colors"
           >
             Cancel
           </button>
           
           <button 
             onClick={() => setShowConfirmDialog(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            disabled={!transactionsNeeded.sell && !transactionsNeeded.buy}
+            className={`btn-primary ${(!transactionsNeeded.sellBtc && !transactionsNeeded.sellEth && !transactionsNeeded.buyBtc && !transactionsNeeded.buyEth) ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={!transactionsNeeded.sellBtc && !transactionsNeeded.sellEth && !transactionsNeeded.buyBtc && !transactionsNeeded.buyEth}
           >
             Rebalance Portfolio
           </button>
@@ -146,15 +189,19 @@ export default function RebalancePreview({
         isOpen={showConfirmDialog}
         title="Confirm Portfolio Rebalance"
         message={`Are you sure you want to rebalance your portfolio from ${currentBtcPercent}% BTC / ${currentEthPercent}% ETH to ${targetBtcPercent}% BTC / ${targetEthPercent}% ETH? This will execute the following transactions: ${
-          transactionsNeeded.sell 
-            ? `Sell ${transactionsNeeded.sell.amount.toFixed(6)} ${transactionsNeeded.sell.asset.toUpperCase()}` 
-            : ''
+          transactionsNeeded.sellBtc ? `Sell ${transactionsNeeded.sellBtc.amount.toFixed(6)} BTC` : ''
         }${
-          transactionsNeeded.sell && transactionsNeeded.buy ? ' and ' : ''
+          transactionsNeeded.sellBtc && (transactionsNeeded.sellEth || transactionsNeeded.buyBtc || transactionsNeeded.buyEth) ? ' and ' : ''
         }${
-          transactionsNeeded.buy 
-            ? `Buy ${transactionsNeeded.buy.amount.toFixed(6)} ${transactionsNeeded.buy.asset.toUpperCase()}` 
-            : ''
+          transactionsNeeded.sellEth ? `Sell ${transactionsNeeded.sellEth.amount.toFixed(6)} ETH` : ''
+        }${
+          (transactionsNeeded.sellBtc || transactionsNeeded.sellEth) && (transactionsNeeded.buyBtc || transactionsNeeded.buyEth) ? ' and ' : ''
+        }${
+          transactionsNeeded.buyBtc ? `Buy ${transactionsNeeded.buyBtc.amount.toFixed(6)} BTC` : ''
+        }${
+          transactionsNeeded.buyBtc && transactionsNeeded.buyEth ? ' and ' : ''
+        }${
+          transactionsNeeded.buyEth ? `Buy ${transactionsNeeded.buyEth.amount.toFixed(6)} ETH` : ''
         }.`}
         confirmLabel="Confirm Rebalance"
         cancelLabel="Cancel"

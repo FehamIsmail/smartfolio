@@ -3,6 +3,7 @@ import "./globals.css";
 import { Providers } from "./components/providers/Providers";
 import { Header } from "./components/ui/Header";
 import { Footer } from "./components/ui/Footer";
+import BackgroundEffect from "./components/ui/BackgroundEffect";
 /**
  * Metadata for the page
  */
@@ -25,15 +26,18 @@ export default function RootLayout({
 }>) {
 
   return (
-      <html lang="en">
-        <body className="bg-gray-100 dark flex flex-col min-h-screen">
-          <Providers>
-            {/* Header (Fixed Height) */}
-            {/* Main Content (Dynamic, Grows but Doesn't Force Scroll) */}
-            <main className="flex-grow flex items-center justify-center px-4">{children}</main>
-            {/* Footer (Fixed Height) */}
-          </Providers>
-        </body>
-      </html>
+    <html lang="en" className="scroll-smooth">
+      <body className="flex flex-col min-h-screen">
+        <Providers>
+          {/* Background Effects */}
+          <BackgroundEffect />
+          
+          {/* Main Content */}
+          <main className="flex-grow flex items-center justify-center px-4 py-8 relative z-10">
+            {children}
+          </main>
+        </Providers>
+      </body>
+    </html>
   );
 }

@@ -2,7 +2,99 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-white text-gray-900 bg-gray-900 text-gray-100;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-50: rgba(99, 102, 241, 0.5);
+  --secondary: #10b981;
+  --secondary-50: rgba(16, 185, 129, 0.5);
+  --secondary-80: rgba(16, 185, 129, 0.8);
+  --accent: #f59e0b;
+  --background-start: #0f172a;
+  --background-end: #1e293b;
+  --card-bg: rgba(30, 41, 59, 0.7);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+}
+
+@layer base {
+  body {
+    @apply font-poppins bg-gradient-to-br from-background-start to-background-end text-text-primary min-h-screen;
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+}
+
+@layer components {
+  .crypto-card {
+    @apply backdrop-blur-md bg-card-bg border border-white/10 rounded-xl shadow-lg;
+  }
+  
+  .glow {
+    @apply relative;
+  }
+  
+  .glow::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-[var(--primary-50)] to-[var(--secondary-50)] rounded-xl blur-xl opacity-30 -z-10 transition-all duration-700;
+  }
+  
+  .glow:hover::before {
+    @apply opacity-50 blur-lg;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary to-primary-dark text-white font-medium py-2 px-4 rounded-lg hover:shadow-lg hover:shadow-[var(--primary-50)] transition-all duration-300;
+  }
+  
+  .btn-secondary {
+    @apply bg-gradient-to-r from-secondary to-[var(--secondary-80)] text-white font-medium py-2 px-4 rounded-lg hover:shadow-lg hover:shadow-[var(--secondary-50)] transition-all duration-300;
+  }
+  
+  .tab-active {
+    @apply border-b-2 border-primary text-primary font-medium;
+  }
+  
+  .tab-inactive {
+    @apply text-text-secondary hover:text-text-primary transition-colors duration-200;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-end);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
 }

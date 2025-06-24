@@ -19,12 +19,12 @@ export default function PortfolioAllocationMatrix({
   };
   
   return (
-    <div className="mb-6 bg-white rounded-lg shadow p-4">
+    <div className="mb-6 crypto-card p-4">
       <div className="flex justify-between items-center mb-3">
-        <h4 className="text-sm font-medium text-gray-700">Portfolio Allocation Matrix</h4>
+        <h4 className="text-sm font-medium text-text-primary">Portfolio Allocation Matrix</h4>
         <button 
           onClick={toggleExpanded}
-          className="text-xs text-blue-600 flex items-center"
+          className="text-xs text-primary flex items-center"
         >
           {isExpanded ? (
             <>
@@ -44,49 +44,53 @@ export default function PortfolioAllocationMatrix({
         </button>
       </div>
       
-      <div className="text-xs text-gray-500 mb-2">
+      <div className="text-xs text-text-secondary mb-2">
         This table shows different BTC/ETH allocations and their expected performance metrics, derived from 50,000 portfolio simulations based on historical data.
       </div>
       
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 text-sm">
-          <thead className="bg-gray-50">
+        <table className="min-w-full divide-y divide-white/10 text-sm">
+          <thead className="bg-background-start/50">
             <tr>
-              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 tracking-wider">
+              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-text-secondary tracking-wider">
                 BTC/ETH
               </th>
-              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 tracking-wider">
+              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-text-secondary tracking-wider">
                 Volatility
               </th>
-              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 tracking-wider">
+              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-text-secondary tracking-wider">
                 Exp. Return
               </th>
-              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 tracking-wider">
+              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-text-secondary tracking-wider">
                 Sharpe Ratio
               </th>
-              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 tracking-wider">
+              <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-text-secondary tracking-wider">
                 Sortino Ratio
               </th>
             </tr>
           </thead>
            
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="divide-y divide-white/10">
             {/* Conservative (90/10) */}
-            <tr className={riskStrategy === 'conservative' ? 'bg-green-50' : ''}>
-              <td className="px-3 py-2 whitespace-nowrap">90/10</td>
-              <td className="px-3 py-2 whitespace-nowrap">0.745</td>
-              <td className="px-3 py-2 whitespace-nowrap">0.575</td>
-              <td className="px-3 py-2 whitespace-nowrap">0.773</td>
-              <td className="px-3 py-2 whitespace-nowrap">0.934</td>
+            <tr className={riskStrategy === 'conservative' ? 'bg-green-900/30' : ''}>
+              <td className="px-3 py-2 whitespace-nowrap">
+                <span className="text-orange-400">90</span>/<span className="text-blue-400">10</span>
+              </td>
+              <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.745</td>
+              <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.575</td>
+              <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.773</td>
+              <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.934</td>
             </tr>
             
             {/* Balanced (70/30) */}
-            <tr className={riskStrategy === 'balanced' ? 'bg-yellow-50' : ''}>
-              <td className="px-3 py-2 whitespace-nowrap">70/30</td>
-              <td className="px-3 py-2 whitespace-nowrap">0.790</td>
-              <td className="px-3 py-2 whitespace-nowrap">0.643</td>
-              <td className="px-3 py-2 whitespace-nowrap">0.813</td>
-              <td className="px-3 py-2 whitespace-nowrap">0.976</td>
+            <tr className={riskStrategy === 'balanced' ? 'bg-yellow-400/10' : ''}>
+              <td className="px-3 py-2 whitespace-nowrap">
+                <span className="text-orange-400">70</span>/<span className="text-blue-400">30</span>
+              </td>
+              <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.790</td>
+              <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.643</td>
+              <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.813</td>
+              <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.976</td>
             </tr>
             
             {/* Show all rows when expanded, otherwise just a subset */}
@@ -105,12 +109,14 @@ export default function PortfolioAllocationMatrix({
                   const ethPercent = Math.round(portfolio.eth * 100);
                   
                   return (
-                    <tr key={index} className={riskStrategy === 'aggressive' && btcPercent === 20 ? 'bg-red-50' : ''}>
-                      <td className="px-3 py-2 whitespace-nowrap">{btcPercent}/{ethPercent}</td>
-                      <td className="px-3 py-2 whitespace-nowrap">{portfolio.volatility.toFixed(3)}</td>
-                      <td className="px-3 py-2 whitespace-nowrap">{portfolio.expectedReturn.toFixed(3)}</td>
-                      <td className="px-3 py-2 whitespace-nowrap">{portfolio.sharpeRatio.toFixed(3)}</td>
-                      <td className="px-3 py-2 whitespace-nowrap">{portfolio.sortinoRatio.toFixed(3)}</td>
+                    <tr key={index} className={riskStrategy === 'aggressive' && btcPercent === 20 ? 'bg-red-900/30' : ''}>
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        <span className="text-orange-400">{btcPercent}</span>/<span className="text-blue-400">{ethPercent}</span>
+                      </td>
+                      <td className="px-3 py-2 whitespace-nowrap text-text-primary">{portfolio.volatility.toFixed(3)}</td>
+                      <td className="px-3 py-2 whitespace-nowrap text-text-primary">{portfolio.expectedReturn.toFixed(3)}</td>
+                      <td className="px-3 py-2 whitespace-nowrap text-text-primary">{portfolio.sharpeRatio.toFixed(3)}</td>
+                      <td className="px-3 py-2 whitespace-nowrap text-text-primary">{portfolio.sortinoRatio.toFixed(3)}</td>
                     </tr>
                   );
                 })}
@@ -118,21 +124,25 @@ export default function PortfolioAllocationMatrix({
             ) : (
               <>
                 {/* Aggressive (20/80) */}
-                <tr className={riskStrategy === 'aggressive' ? 'bg-red-50' : ''}>
-                  <td className="px-3 py-2 whitespace-nowrap">20/80</td>
-                  <td className="px-3 py-2 whitespace-nowrap">1.059</td>
-                  <td className="px-3 py-2 whitespace-nowrap">0.776</td>
-                  <td className="px-3 py-2 whitespace-nowrap">0.732</td>
-                  <td className="px-3 py-2 whitespace-nowrap">0.893</td>
+                <tr className={riskStrategy === 'aggressive' ? 'bg-red-900/30' : ''}>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    <span className="text-orange-400">20</span>/<span className="text-blue-400">80</span>
+                  </td>
+                  <td className="px-3 py-2 whitespace-nowrap text-text-primary">1.059</td>
+                  <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.776</td>
+                  <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.732</td>
+                  <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.893</td>
                 </tr>
                 
                 {/* Just a couple more common ratios */}
                 <tr>
-                  <td className="px-3 py-2 whitespace-nowrap">50/50</td>
-                  <td className="px-3 py-2 whitespace-nowrap">0.860</td>
-                  <td className="px-3 py-2 whitespace-nowrap">0.688</td>
-                  <td className="px-3 py-2 whitespace-nowrap">0.800</td>
-                  <td className="px-3 py-2 whitespace-nowrap">0.961</td>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    <span className="text-orange-400">50</span>/<span className="text-blue-400">50</span>
+                  </td>
+                  <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.860</td>
+                  <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.688</td>
+                  <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.800</td>
+                  <td className="px-3 py-2 whitespace-nowrap text-text-primary">0.961</td>
                 </tr>
               </>
             )}

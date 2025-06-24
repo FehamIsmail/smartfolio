@@ -35,23 +35,23 @@ export default function ProgressBar({
     <div className={`w-full ${className}`}>
       {label && (
         <div className="flex justify-between mb-1">
-          <span className="text-sm font-medium text-gray-700">{label}</span>
+          <span className="text-sm font-medium text-text-primary">{label}</span>
           <div className="flex items-center">
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-text-primary">
               {normalizedCurrent.toFixed(1)}{unit}
             </span>
             <span className={`mx-2 font-bold ${arrowColor}`}>{arrowDirection}</span>
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-text-primary">
               {normalizedTarget.toFixed(1)}{unit}
             </span>
           </div>
         </div>
       )}
       
-      <div className="relative w-full h-4 bg-gray-200 rounded-full overflow-hidden">
+      <div className="relative w-full h-4 bg-background-start rounded-full overflow-hidden">
         {/* Current value bar */}
         <div 
-          className="absolute h-full bg-blue-600 rounded-full transition-all duration-500"
+          className="absolute h-full bg-primary rounded-full transition-all duration-500"
           style={{ width: currentWidth }}
         ></div>
         

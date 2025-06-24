@@ -71,13 +71,23 @@ export interface RebalancePreviewData {
     total: number;
   };
   transactionsNeeded: {
-    sell?: {
-      asset: 'btc' | 'eth';
+    sellBtc?: {
+      asset: 'btc';
       amount: number;
       valueUSD: number;
     };
-    buy?: {
-      asset: 'btc' | 'eth';
+    sellEth?: {
+      asset: 'eth';
+      amount: number;
+      valueUSD: number;
+    };
+    buyBtc?: {
+      asset: 'btc';
+      amount: number;
+      valueUSD: number;
+    };
+    buyEth?: {
+      asset: 'eth';
       amount: number;
       valueUSD: number;
     };
