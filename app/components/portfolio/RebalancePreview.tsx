@@ -1,4 +1,4 @@
-import { AssetAllocation, RebalancePreviewData } from '@/app/types/portfolio';
+import { RebalancePreviewData } from '@/app/types/portfolio';
 import ProgressBar from '../ui/ProgressBar';
 import AlertDialog from '../ui/AlertDialog';
 import { useState } from 'react';
@@ -15,7 +15,6 @@ interface RebalancePreviewProps {
  */
 export default function RebalancePreview({
   previewData,
-  isLoading,
   onConfirm,
   onCancel
 }: RebalancePreviewProps) {
@@ -28,8 +27,6 @@ export default function RebalancePreview({
   const { 
     currentAllocation, 
     targetAllocation, 
-    currentValue, 
-    targetValue,
     transactionsNeeded 
   } = previewData;
   

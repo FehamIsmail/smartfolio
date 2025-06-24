@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAccount, useBalance, useChainId } from 'wagmi';
-import { AssetAllocation, MPTResult, MarketData, RebalancePreviewData, RiskStrategy } from '@/app/types/portfolio';
-import { RISK_PROFILES, findClosestPortfolio } from '@/app/lib/mpt';
+import { MPTResult, MarketData, RebalancePreviewData, RiskStrategy } from '@/app/types/portfolio';
+import { findClosestPortfolio } from '@/app/lib/mpt';
 import { calculateCurrentAllocation, calculatePortfolioValue } from '@/app/lib/marketData';
 import RiskStrategySelector from './RiskStrategySelector';
 import CurrentPortfolioDisplay from './CurrentPortfolioDisplay';
@@ -37,7 +37,6 @@ export default function PortfolioRebalancer() {
   const [isRunningAnalysis, setIsRunningAnalysis] = useState(false);
   const [isCreatingPreview, setIsCreatingPreview] = useState(false);
   const [isExecutingRebalance, setIsExecutingRebalance] = useState(false);
-  const [transactionComplete, setTransactionComplete] = useState(false);
   const [transactionSuccess, setTransactionSuccess] = useState(false);
   const [transactionError, setTransactionError] = useState<string | undefined>(undefined);
   
@@ -47,8 +46,7 @@ export default function PortfolioRebalancer() {
   
   // Use useBalance hook to get ETH balance (native token)
   const { 
-    data: ethBalance,
-    isLoading: isLoadingEthBalance 
+    data: ethBalance, 
   } = useBalance({
     address: address,
     query: {
@@ -237,7 +235,12 @@ export default function PortfolioRebalancer() {
       const ethDiff = currentValue.eth - targetEthValue;
       
       // Determine which asset to sell and which to buy based on the differences
-      let transactionsNeeded = {} as any;
+      const transactionsNeeded = {} as {
+        sellBtc?: { asset: 'btc'; amount: number; valueUSD: number };
+        buyBtc?: { asset: 'btc'; amount: number; valueUSD: number };
+        sellEth?: { asset: 'eth'; amount: number; valueUSD: number };
+        buyEth?: { asset: 'eth'; amount: number; valueUSD: number };
+      };
       
       if (Math.abs(btcDiff) > currentValue.total * THRESHOLD) {
         if (btcDiff > 0) {
@@ -334,14 +337,12 @@ export default function PortfolioRebalancer() {
       setTransactionError('An unexpected error occurred');
     } finally {
       setIsExecutingRebalance(false);
-      setTransactionComplete(true);
     }
   }, [mptResult, address, isConnected, chainId, holdings, previewData]);
   
   // Reset transaction state
   const resetTransactionState = () => {
     setShowConfirmation(false);
-    setTransactionComplete(false);
     setTransactionSuccess(false);
     setTransactionError(undefined);
     setTxHashes([]);

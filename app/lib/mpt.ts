@@ -112,84 +112,6 @@ export function calculateSharpeRatio(
 }
 
 /**
- * Generate allocation options to simulate across the efficient frontier
- * Returns array of allocations from 0% to 100% BTC in 5% increments
- */
-function generateAllocationOptions(): AssetAllocation[] {
-  const allocations: AssetAllocation[] = [];
-  
-  for (let btcPercentage = 0; btcPercentage <= 100; btcPercentage += 5) {
-    allocations.push({
-      btc: btcPercentage / 100,
-      eth: (100 - btcPercentage) / 100
-    });
-  }
-  
-  return allocations;
-}
-
-/**
- * Find the optimal allocation based on the risk strategy
- */
-function findOptimalAllocation(
-  simulationResults: Array<{
-    allocation: AssetAllocation;
-    expectedReturn: number;
-    portfolioRisk: number;
-    sharpeRatio: number;
-  }>,
-  riskProfile: RiskProfile
-): {
-  optimalAllocation: AssetAllocation;
-  expectedReturn: number;
-  portfolioRisk: number;
-  sharpeRatio: number;
-} {
-  // For conservative, target lower volatility (around 0.75)
-  if (riskProfile.name === 'conservative') {
-    // Find allocation closest to target volatility of 0.75
-    const result = simulationResults
-      .sort((a, b) => 
-        Math.abs(Math.sqrt(a.portfolioRisk) - 0.75) - 
-        Math.abs(Math.sqrt(b.portfolioRisk) - 0.75)
-      )[0];
-    return {
-      optimalAllocation: result.allocation,
-      expectedReturn: result.expectedReturn,
-      portfolioRisk: result.portfolioRisk,
-      sharpeRatio: result.sharpeRatio
-    };
-  }
-  
-  // For aggressive, target higher returns with higher volatility (around 1.05)
-  if (riskProfile.name === 'aggressive') {
-    // Find allocation closest to target volatility of 1.05
-    const result = simulationResults
-      .sort((a, b) => 
-        Math.abs(Math.sqrt(a.portfolioRisk) - 1.05) - 
-        Math.abs(Math.sqrt(b.portfolioRisk) - 1.05)
-      )[0];
-    return {
-      optimalAllocation: result.allocation,
-      expectedReturn: result.expectedReturn,
-      portfolioRisk: result.portfolioRisk,
-      sharpeRatio: result.sharpeRatio
-    };
-  }
-  
-  // For balanced, target optimal Sharpe ratio (around 0.8)
-  // Sort by Sharpe ratio descending
-  const sortedResults = [...simulationResults].sort((a, b) => b.sharpeRatio - a.sharpeRatio);
-  const result = sortedResults[0];
-  return {
-    optimalAllocation: result.allocation,
-    expectedReturn: result.expectedReturn,
-    portfolioRisk: result.portfolioRisk,
-    sharpeRatio: result.sharpeRatio
-  };
-}
-
-/**
  * Generate reasoning text based on MPT analysis results
  */
 function generateReasoning(
@@ -210,18 +132,6 @@ function generateReasoning(
       : 'maximizing potential returns while accepting higher volatility';
   
   return `Based on Modern Portfolio Theory analysis with ${riskProfile.name} risk profile (${riskDescription}), the optimal allocation is ${btcPercent}% BTC and ${ethPercent}% ETH. This allocation has an expected annual return of ${(expectedReturn * 100).toFixed(2)}% with portfolio volatility of ${(Math.sqrt(portfolioRisk) * 100).toFixed(2)}%, yielding a Sharpe Ratio of ${sharpeRatio.toFixed(2)}. The current correlation between BTC and ETH is ${marketData.correlation.toFixed(2)}, indicating ${marketData.correlation > 0.7 ? 'strong positive correlation' : marketData.correlation > 0.3 ? 'moderate correlation' : 'lower correlation'}.`;
-}
-
-/**
- * Calculate historical returns based on price data
- * Using values derived from the provided optimization chart
- */
-function estimateHistoricalReturns(marketData: MarketData): { btc: number; eth: number } {
-  // These values are derived from the data in the chart to match the expected returns
-  return {
-    btc: 0.53, // Estimated annual return for BTC
-    eth: 0.86  // Estimated annual return for ETH
-  };
 }
 
 /**

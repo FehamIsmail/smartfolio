@@ -94,8 +94,8 @@ async function fetchHistoricalPrices(): Promise<{
     console.error('Failed to fetch historical prices:', error);
     // Return some mock data in case of API failure
     return {
-      btcPrices: Array(30).fill(0).map((_, i) => 60000 + (Math.random() * 5000 - 2500)),
-      ethPrices: Array(30).fill(0).map((_, i) => 3000 + (Math.random() * 300 - 150))
+      btcPrices: Array(30).fill(0).map(() => 60000 + (Math.random() * 5000 - 2500)),
+      ethPrices: Array(30).fill(0).map(() => 3000 + (Math.random() * 300 - 150))
     };
   }
 }
@@ -236,7 +236,7 @@ export async function getMarketData(): Promise<MarketData> {
  * NOTE: In client components, use wagmi hooks like useBalance instead of this function
  * to get real-time wallet balances.
  */
-export async function getWalletHoldings(walletAddress: string): Promise<{
+export async function getWalletHoldings(): Promise<{
   btc: number;
   eth: number;
 }> {

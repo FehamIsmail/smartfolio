@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { PortfolioRebalanceRequest } from '@/app/types/portfolio';
 import { getMarketData, calculateRebalanceTransactions } from '@/app/lib/marketData';
-import { createAgent } from '@/app/api/agent/create-agent';
 
 /**
  * POST handler for portfolio rebalancing
@@ -12,7 +11,7 @@ export async function POST(
 ) {
   try {
     // Parse the request body
-    const { targetRatio, walletConfig, currentHoldings } = await req.json();
+    const { targetRatio, currentHoldings } = await req.json();
 
     // Validate request
     if (!targetRatio) {
@@ -24,9 +23,6 @@ export async function POST(
 
     // Get market data
     const marketData = await getMarketData();
-
-    // Get AgentKit agent
-    const agent = await createAgent(walletConfig);
 
     // Use the actual wallet holdings passed from the client
     // If not provided, use AgentKit to fetch them (future implementation)

@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="py-4 text-center text-gray-500 dark:text-gray-400 flex-none">
+    <footer className="py-4 text-center text-gray-500 text-gray-400 flex-none">
       <img
         src="https://images.ctfassets.net/q5ulk4bp65r7/3TBS4oVkD1ghowTqVQJlqj/2dfd4ea3b623a7c0d8deb2ff445dee9e/Consumer_Wordmark.svg"
         alt="Coinbase"
@@ -11,7 +11,7 @@ export function Footer() {
           href="https://github.com/coinbase/agentkit"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:underline text-blue-600 dark:text-blue-400"
+          className="hover:underline text-blue-600 text-blue-400"
         >
           GitHub
         </a>{" "}
@@ -20,7 +20,7 @@ export function Footer() {
           href="https://docs.cdp.coinbase.com/agentkit/docs/welcome"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:underline text-blue-600 dark:text-blue-400"
+          className="hover:underline text-blue-600 text-blue-400"
         >
           Documentation
         </a>{" "}
@@ -29,7 +29,7 @@ export function Footer() {
           href="https://discord.gg/CDP"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:underline text-blue-600 dark:text-blue-400"
+          className="hover:underline text-blue-600 text-blue-400"
         >
           Discord
         </a>
@@ -40,7 +40,7 @@ export function Footer() {
           href="https://docs.cdp.coinbase.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 dark:text-blue-400 hover:underline"
+          className="text-blue-600 text-blue-400 hover:underline"
         >
           CDP
         </a>

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./components/providers/Providers";
-import { Header } from "./components/ui/Header";
-import { Footer } from "./components/ui/Footer";
 import BackgroundEffect from "./components/ui/BackgroundEffect";
 /**
  * Metadata for the page

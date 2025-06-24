@@ -1,5 +1,4 @@
 import { MPTResult, MarketData, RiskStrategy } from '@/app/types/portfolio';
-import { RISK_PROFILES } from '@/app/lib/mpt';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
 interface MPTAnalysisDisplayProps {
@@ -66,7 +65,6 @@ export default function MPTAnalysisDisplay({
     );
   }
 
-  const riskProfile = RISK_PROFILES[riskStrategy];
   const btcPercent = Math.round(mptResult.optimalRatio.btc * 100);
   const ethPercent = Math.round(mptResult.optimalRatio.eth * 100);
 

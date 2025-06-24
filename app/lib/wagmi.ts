@@ -1,5 +1,4 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
-import { http } from 'wagmi';
 import { mainnet, base, baseSepolia } from 'wagmi/chains';
 
 export const config = getDefaultConfig({

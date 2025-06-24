@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PORTFOLIO_MATRIX, findClosestPortfolio } from '@/app/lib/mpt';
+import { findClosestPortfolio } from '@/app/lib/mpt';
 
 interface CustomWeightSelectorProps {
   onSelect: (btcWeight: number) => void;

@@ -1,4 +1,3 @@
-import { AssetAllocation } from '@/app/types/portfolio';
 import { MarketData } from '@/app/types/portfolio';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
