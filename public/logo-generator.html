@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartFolio Logo Generator</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: white;
+    }
+    
+    .logo-container {
+      width: 256px;
+      height: 256px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .logo {
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+    
+    .glow {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
+      border-radius: 16px;
+      opacity: 0.75;
+      filter: blur(8px);
+    }
+    
+    .shape {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .letter {
+      color: white;
+      font-weight: bold;
+      font-size: 120px;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <div class="logo">
+      <div class="glow"></div>
+      <div class="shape">
+        <span class="letter">S</span>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // You can take a screenshot of this page to create your logo image
+    console.log("Take a screenshot of this page to create your logo");
+  </script>
+</body>
+</html> 

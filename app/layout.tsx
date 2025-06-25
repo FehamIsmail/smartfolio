@@ -8,6 +8,12 @@ import BackgroundEffect from "./components/ui/BackgroundEffect";
 export const metadata: Metadata = {
   title: "SmartFolio - DeFi Portfolio Management",
   description: "Optimize your crypto portfolio using Modern Portfolio Theory with AI-powered insights",
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.png', type: 'image/png' }
+    ]
+  }
 };
 
 /**
