@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET handler for BTC balance
  * In a real implementation, this would connect to an external API 
