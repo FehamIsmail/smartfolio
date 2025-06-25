@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./components/providers/Providers";
+import { Analytics } from "@vercel/analytics/next"
 import BackgroundEffect from "./components/ui/BackgroundEffect";
 /**
  * Metadata for the page
@@ -39,6 +40,7 @@ export default function RootLayout({
           {/* Main Content */}
           <main className="flex-grow flex items-center justify-center px-4 py-8 relative z-10">
             {children}
+            <Analytics />
           </main>
         </Providers>
       </body>
