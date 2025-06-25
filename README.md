@@ -26,7 +26,6 @@ SmartFolio is a DeFi portfolio management application that uses Modern Portfolio
 
 For more detailed information about SmartFolio:
 
-- [**Demo**](./DEMO.md) - Visual walkthrough of the application with screenshots
 - [**How It Works**](./HOW_IT_WORKS.md) - Detailed explanation of the portfolio rebalancing algorithms and Modern Portfolio Theory implementation
 
 ## Modern Portfolio Theory
